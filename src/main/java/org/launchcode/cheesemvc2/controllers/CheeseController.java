@@ -1,6 +1,6 @@
 package org.launchcode.cheesemvc2.controllers;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value="cheese")
 public class CheeseController {
 
-	static ArrayList<String> cheese = new ArrayList<>();
+	static HashMap<String, String> cheese = new HashMap<>();
 	
 	@RequestMapping(value="")
-	public String index(Model model) {		
+	public String index(Model model) {
 		model.addAttribute("cheeses", cheese);		
 		String title = "My Cheeses";
 		model.addAttribute("title", title);
@@ -29,8 +29,9 @@ public class CheeseController {
 	}
 	
 	@RequestMapping(value="add", method=RequestMethod.POST)
-	public String processAddCheeseForm(Model model, @RequestParam String cheeseName) {
-		cheese.add(cheeseName);
+	public String processAddCheeseForm(Model model, @RequestParam String cheeseName,
+			@RequestParam String description) {
+		cheese.put(cheeseName, description);
 		model.addAttribute("title", "Add Cheese");
 		// redirect is relative to top level request mapping
 		return "redirect:";
